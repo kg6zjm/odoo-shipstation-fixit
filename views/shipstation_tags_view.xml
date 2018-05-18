@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>    
+    		<record id="shipstation_tags_view" model="ir.ui.view">
+                <field name="name">shipstation.tags</field>
+                <field name="model">shipstation.tags</field>
+                <field name="arch" type="xml">
+                    <form string="Shipstation Tags" edit="false" create="false" version="7.0">
+                        <sheet>
+                            <group>
+                                <field name="name" required="1"/>
+                                <field name="code" required="1"/>
+                                <field name="tag_color" />
+                            </group>
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+
+            <record id="shipstation_tags_tree_view" model="ir.ui.view">
+                <field name="name">shipstation.tags.Tree.view</field>
+                <field name="model">shipstation.tags</field>
+                <field name="arch" type="xml">
+                    <tree string="ShipStation Tags" edit="false" create="false" >
+                        <field name="name" />
+                        <field name="code" />
+                        <field name="tag_color" />
+                    </tree>
+                </field>
+            </record>
+            
+         <record id="action_shipstation_tags" model="ir.actions.act_window">
+            <field name="name">Ship Station Tags</field>
+            <field name="res_model">shipstation.tags</field>
+             <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="shipstation_tags_main_menu" parent="shipstation_main_menu" name="ShipStation Tags" sequence="4"/>
+        <menuitem id="shipstation_tags_menu" action="action_shipstation_tags" name="ShipStation Tags" parent ="shipstation_tags_main_menu" sequence="20"/>
+        
+        </data>
+    </odoo>

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="sale_order_shipping_view_form" model="ir.ui.view">
+            <field name="name">sale.order.shipping.view.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="arch" type="xml">
+             <xpath expr="//field[@name='payment_term_id']" position="after">
+            	<field name="is_shipstation" readonly="1"/>
+            </xpath>
+            <xpath expr="//field[@name='date_order']" position="after">
+            	<field name="store_id" string="Store" invisible="1"/>
+            	<field name="marketplc_id" string="Marketplace" invisible="1" />
+                <field name="shipstation_order_id"/>	
+            </xpath>
+                <!--<field name='carrier_id' position="before">-->
+<!--                <xpath expr="//group[@name='sale_total']" position="after">
+                    <group colspan="2" > 
+                        <field name="ship_date" />
+                    </group>
+                    <group colspan="2" >
+                        <field name="track_ref"/>
+                        
+                    </group>
+                </field>
+               </xpath>-->
+                <!--<xpath expr="//group[@name='sale_total']" position="replace">-->
+                    <!-- <group style="width: 65%%" position= "replace"/> -->
+                        
+                <!--</xpath>-->
+               
+<!--                <xpath expr="//notebook" position="after"> -->
+<!--                    <separator string="Tracking Information" colspan="4"/> -->
+                   <!-- <button name="get_orders" type="object" string="Get Tracking Info" />
+                    <button name="create_order_shipstation" type="object" string="Orders" />    -->              
+                       <!-- <field name="unique_sales_rec_no"/> -->                  
+                       <!--<button name="open_carrier" type="object" string="Check Status" />-->
+<!--                    <group> -->
+<!--                         <field name="track_sale_ref_ids" nolabel="1" > -->
+<!--                             <tree editable="bottom"> -->
+<!--                                     <field name="status"/> -->
+<!--                                     <field name="ship_date"/> -->
+<!--                                     <field name="carr_id"/> -->
+<!--                                     <field name="tracking_code"/> -->
+<!--                                     <field name="notes"/> -->
+<!--                                     <button name="open_carrier" type="object" icon="gtk-jump-to" string="Check Status" /> -->
+<!--                             </tree> -->
+                         
+<!--                         </field> -->
+<!--                    </group> -->
+<!--                </xpath> -->
+               <xpath expr="//notebook" position="before">
+               		<group>
+               		    <!--<label for="customer_notes" string="Customer Notes"/>-->
+                        <field name ="customer_notes"  class="oe_inline"/>
+               		</group>
+                 </xpath>
+                 <xpath expr="//notebook" position="inside">  
+                 	<page string ="Shipstation Info" name="shipstation_info">
+                 		<group>
+		                 <group cols = "2" string="Shipping Info" invisible="1">
+		                    <field name ="ship_date"/>
+		                  	<field name ="track_ref"/>
+		                  	<field name ="payment_date"/>
+		                  	<field name ="shipby_date"/>
+		                  	<field name ="internal_notes"/>
+		                  	<field name ="gift"/>
+		                  	<field name ="gift_message"/>
+		                  	<field name ="req_shipping"/>
+		                    <field name ="weight"/>
+		                  	<field name ="weight_uom"/>
+				          </group>
+		                  <!-- <group string="Dimension">
+				              	<field name ="dimension_len"/>
+				              	<field name ="dimension_width"/>
+				              	<field name ="dimension_hieght"/>
+				              	<field name ="dimension_unit"/>
+		                  </group>
+		                  <group string="Codes Info">
+		                  		<field name ="carrier_code"/>
+			                  	<field name ="service_code"/>
+			                  	<field name ="package_code"/>
+		                  </group> -->
+		                 <group string="Order Info" invisible="1">
+			                 	<field name ="order_id"/>
+			                  	<field name ="order_number"/>
+			                  	<field name ="order_date"/>
+			                  	<field name ="order_status"/>
+		                 </group>
+		               </group>
+		               <separator string="Tracking Information" colspan="4"/>
+	                   <group>
+	                        <field name="track_sale_ref_ids" nolabel="1" >
+	                            <tree editable="bottom">
+                                      <field name="pick_id"/>
+                                      <field name="shipstation_order_id"/>
+	                                    <field name="ship_date"/>
+	                                    <field name="carr_id"/>
+	                                    <field name="tracking_code"/>
+	                                    <field name="notes"/>
+<!--                                       <field name="ship_cost"/>
+ -->                                      <field name="status"/>
+	                                    <button name="open_carrier" type="object" string="Check Status" />
+	                            </tree>
+	                        </field>
+	                   </group>	
+	                   <separator string="Shipment Information" colspan="4"/>
+	                   <group>
+	                        <field name="export_order_ids" nolabel="1" >
+	                            <tree editable="bottom" readonly="1">
+	                                    <field name="do_id"/>
+	                                    <field name="shipstation_id"/>
+	                            </tree>
+	                        </field>
+	                   </group>	
+	                   	               
+		             </page>
+               </xpath>
+            </field>
+        </record>
+         <record id="view_order_tree_inherit" model="ir.ui.view">
+            <field name="name">sale.order.tree</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="arch" type="xml">
+               <xpath expr="//field[@name='name']" position="after">
+            	<field name="store_id" string="Store"/>
+            </xpath>
+            </field>
+        </record>
+
+        <record id="inherit_action_quotations" model="ir.actions.act_window">
+            <field name="name">Quotations</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="sale.view_quotation_tree"/>
+            <field name="view_mode">tree,kanban,form,calendar,pivot,graph</field>
+            <field name="context">{'default_is_shipstation':True}</field>
+            <field name="domain">[('state','in',('draft','sent','cancel')),('is_shipstation','=',True)]</field>
+            <field name="search_view_id" ref="sale.view_sales_order_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Create a Quotation, the first step of a new sale.
+              </p><p>
+                Your next actions should flow efficiently: confirm the Quotation 
+                to a Sale Order, then create the Invoice and collect the Payment.
+              </p><p>
+                Note that once a Quotation becomes a Sale Order, it will be moved 
+                from the Quotations list to the Sales Order list.
+              </p>
+            </field>
+        </record>
+       <record id="inherit_action_orders" model="ir.actions.act_window">
+            <field name="name">Sales Orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,kanban,form,calendar,pivot,graph</field>
+            <field name="search_view_id" ref="sale.view_sales_order_filter"/>
+            <field name="context">{'show_sale': True,'default_is_shipstation':True}</field>
+            <field name="domain">[('state', 'not in', ('draft', 'sent', 'cancel')),('is_shipstation','=',True)]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Create a Quotation, the first step of a new sale.
+                </p><p>
+                    Your next actions should flow efficiently: confirm the Quotation to a Sale Order, then create the Invoice and collect the Payment.
+                </p><p>
+                    Note that once a Quotation becomes a Sale Order, it will be moved from the Quotations list to the Sales Order list.
+                </p>
+            </field>
+        </record>
+         <record id="inherit_product_normal_action" model="ir.actions.act_window">
+            <field name="name">Product</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.product</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="view_type">form</field>
+            <field name="search_view_id" ref="product.product_search_form_view"/>
+            <field name="view_id" eval="False"/> <!-- Force empty -->
+             <field name="domain">[('is_shipstation','=',True)]</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to define a new product.
+              </p><p>
+                You must define a product for everything you sell, whether it's
+                a physical product, a consumable or a service you offer to
+                customers.
+              </p><p>
+                The product form contains information to simplify the sale
+                process: price, notes in the quotation, accounting data,
+                procurement methods, etc.
+              </p>
+            </field>
+        </record>
+       
+        <record id="inherit_action_partner_form" model="ir.actions.act_window">
+            <field name="name">Customers</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{"search_default_customer":1}</field>
+            <field name="domain">[('is_shipstation','=',True)]</field>
+            <field name="search_view_id" ref="base.view_res_partner_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to add a contact in your address book.
+              </p><p>
+                Odoo helps you easily track all activities related to
+                a customer; discussions, history of business opportunities,
+                documents, etc.
+              </p>
+            </field>
+        </record>
+       <menuitem name="Sales" id="sale_shipstatin_menu" parent="shipstation_main_menu" sequence="1"/>
+       <menuitem id="customer_shipstatin_menu" action="inherit_action_partner_form" parent="sale_shipstatin_menu" name="Customers" sequence="1"/>
+       <menuitem id="quotation_shipstatin_menu" action="inherit_action_quotations" parent="sale_shipstatin_menu" name="Quotations" sequence="2"/>
+       <menuitem id="sale_order_shipstatin_menu" action="inherit_action_orders" parent="sale_shipstatin_menu" name="Sale Orders" sequence="3"/>
+       <menuitem id="product_shipstatn_menu" name="Product" action="inherit_product_normal_action" parent="sale_shipstatin_menu" sequence="4"/>
+    </data>
+</openerp>

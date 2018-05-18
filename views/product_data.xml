@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">        
+        <record id="product_product_shipping" model="product.product">
+            <field name="name">Shipping and Handling</field>
+            <field name="standard_price">0.0</field>
+            <field name="list_price">0.0</field>
+            <field name="type">product</field>
+            <field name="description_sale">Shipping and Handling</field>
+        </record>
+
+    </data>
+</openerp>

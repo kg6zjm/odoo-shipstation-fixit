@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+       <record id="export_orders_ship" model="ir.ui.view">
+            <field name="name">export.orders.ship</field>
+            <field name="model">export.orders.ship</field>
+            <field name="arch" type="xml">
+                <form string="EXPORT ORDER">
+                    <!--<group>-->
+                       <!--<field name="order_date"/>-->
+                   <!--</group>-->
+                   <footer>
+                       <button name="export_orders_ship" string="Export order to shipstation" type="object" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+       <act_window name="Export  Order To Shipstation"
+            res_model="export.orders.ship"
+            src_model="sale.order"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"
+            id="action_export_orders_ship" />
+
+    </data>
+</odoo>

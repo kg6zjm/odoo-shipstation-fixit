@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+       <record id="import_shipped_orders" model="ir.ui.view">
+            <field name="name">import.shipped.orders.view</field>
+            <field name="model">import.shipped.orders</field>
+            <field name="arch" type="xml">
+                <form string="IMPORT SHIPSTATION ORDER TRACKING ID">
+                    <group>
+                       <field name="order_date"/>
+                   </group>
+                   <footer>
+                       <button name="get_orders" string="Import Shipped Tracking Id" type="object" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+       <act_window name="Import Shipstation Order Tracking Id"
+            res_model="import.shipped.orders"
+            src_model="sale.order"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"
+            id="action_import_shipped_orders" /> 
+    </data>
+</odoo>

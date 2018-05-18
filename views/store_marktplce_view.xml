@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>    
+    		<record id="shipstation_marketplc_view" model="ir.ui.view">
+                <field name="name">marketplace.shipstatin</field>
+                <field name="model">marketplace.shipstatin</field>
+                <field name="arch" type="xml">
+                    <form string="Shipstation Marketplaces" version="7.0">
+                        <sheet>
+                            <group>
+                                <field name="name" required="1"/>
+                                <field name="marketplace_id"/>
+                                <field name="can_refresh" />
+                                <field name="suprt_cstm_mapins" />
+                                <field name="suprt_cstm_status" />
+                                <field name="can_confrm_shipmnt" />
+                            </group>
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+
+            <record id="shipstation_marketplace_tree_view" model="ir.ui.view">
+                <field name="name">marketplace.shipstatin.tree.view</field>
+                <field name="model">marketplace.shipstatin</field>
+                <field name="arch" type="xml">
+                    <tree string="ShipStation Marketplaces" edit="false" create="false" >
+                        <field name="name" required="1"/>
+                        <field name="marketplace_id"/>
+                        <field name="can_refresh" />
+                        <field name="suprt_cstm_mapins" />
+                        <field name="suprt_cstm_status" />
+                        <field name="can_confrm_shipmnt" />
+                    </tree>
+                </field>
+            </record>
+            
+         <record id="action_shipstation_marketplace" model="ir.actions.act_window">
+            <field name="name">Shipstation Marketplaces</field>
+            <field name="res_model">marketplace.shipstatin</field>
+             <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="shipstation_marketplace_main_menu" parent="shipstation_main_menu" name="ShipStation Marketplaces" sequence="4"/>
+        <menuitem id="shipstation_marketplace_menu" action="action_shipstation_marketplace" name="Marketplaces" parent ="shipstation_marketplace_main_menu" sequence="20"/>
+        
+        <record id="shipstation_stores_view" model="ir.ui.view">
+                <field name="name">shipstation.stores</field>
+                <field name="model">shipstation.stores</field>
+                <field name="arch" type="xml">
+                    <form string="Shipstation Stores" version="7.0">
+                    	<header>
+                    		<button name="get_carriers" type="object" string="1.Get Carrier"/>
+							<button name="get_services" type="object" string ="2.Get Service" />
+                    		<button name="create_orders" type="object" string ="3.Import Orders"/>
+                            <button name="get_orders" type="object" string="4.Get Tracking Info" />
+                            <button name="create_tags" type="object" string="5.Get Tags"/>
+                    	</header>
+                        <sheet>
+                            <group>
+                                <field name="name" required="1"/>
+                                <field name="marketplace_id" required="1"/>
+                                <field name="store_id" />
+                                <field name="email" />
+                                <field name="integration_url" />
+                                <field name="active" />
+                                <field name="company_name" />
+                                <field name="phone" />
+                                <field name="website" />
+                            </group>
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+
+            <record id="shipstation_stores_tree_view" model="ir.ui.view">
+                <field name="name">shipstation.stores.tree.view</field>
+                <field name="model">shipstation.stores</field>
+                <field name="arch" type="xml">
+                    <tree string="ShipStation Stores" >
+                        <field name="name" required="1"/>
+                        <field name="marketplace_id" required="1"/>
+                        <field name="store_id" />
+                        <field name="email" />
+                        <field name="integration_url" />
+                        <field name="active" />
+                    </tree>
+                </field>
+            </record>
+            
+         <record id="action_shipstation_stores" model="ir.actions.act_window">
+            <field name="name">Shipstation Stores</field>
+            <field name="res_model">shipstation.stores</field>
+             <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="shipstation_stores_main_menu" parent="shipstation_main_menu" name="ShipStation Stores" sequence="5"/>
+        <menuitem id="shipstation_stores_menu" action="action_shipstation_stores" name="Stores" parent ="shipstation_stores_main_menu" sequence="20"/>
+        
+        
+        </data>
+    </openerp>

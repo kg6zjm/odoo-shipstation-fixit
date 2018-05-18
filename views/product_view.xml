@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+	
+	  <record id="view_amazon_product_product_form" model="ir.ui.view">
+		<field name="name">product.amazon.tree.inherit</field>
+		<field name="model">product.product</field>
+		<field name="inherit_id" ref="product.product_normal_form_view"/>
+		<field name="type">tree</field>
+		<field name="arch" type="xml">
+  		
+		<xpath expr="//notebook" position="inside">
+		<page string="Shipstation">
+			<notebook>
+				<page string="Shipstation Attributes" >
+				<form string="Product Attribtes">
+					<group col ="2">
+						<field name="product_ship_id"/>
+						<field name="default_cost"/>
+						<field name="fulfillment_sku"/>
+						<field name="product_type"/>
+						<field name="default_carrier_code"/>
+						<field name="default_service_code"/>
+						<field name="df_intl_carriercode"/>
+						<field name="df_intl_servicecode"/>
+						<field name="df_intl_pckge_code"/>
+						<field name="customs_descrptn"/>
+						<field name="customs_tariff_no"/>
+						<field name="customs_country_code"/>
+					 </group>
+		
+					<group>
+						 <separator colspan="4" string="Product Dimensions"/>
+							<field name="length"/>
+							<field name="width"/>
+							<field name="height"/>
+							<field name="weight_oz"/>
+					</group>
+					</form>	
+					
+				</page>
+			 </notebook>
+			</page>
+		</xpath>
+	</field>
+	</record>
+	
+	</data>
+</openerp>
+
+	

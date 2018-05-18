@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+		<!-- inherit and invisible FOrce button -->
+          <record id="stock_picking_product_form_view" model="ir.ui.view" >
+            <field name="name">stock.picking</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form" />
+            <field name="arch" type="xml">
+            <xpath expr="/form/sheet/notebook/page[2]/field[@name='move_lines']/tree/field[@name='product_uom_qty']" position="after">
+                     <field name="initial_demamd"/>
+                     
+                </xpath>
+            </field>
+         </record>
+</odoo>

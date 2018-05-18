@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+            <record id="shipstation_form_view" model="ir.ui.view">
+                <field name="name">shipstation.form.view</field>
+                <field name="model">ship.station.config</field>
+                <field name="arch" type="xml">
+                    <form string="Configuration" version="7.0">
+                        <header>
+
+							<button name="get_marketplace" type="object" string ="1.Import Marketplaces"/>
+                            <button name="get_stores" type="object" string="2.Import Stores" />
+                        </header>
+                        <sheet>
+                            <group>
+                            	<field name="name"/>
+                                <field name="url" />
+                                <field name="user" string="API Key"/>
+                                <field name="password"  string="API Secret Key"/>
+                                <field name="allow_multiple_label"/>
+                                <field name="export_order_create"/>
+                            </group>
+                            <group>
+                                <field name="from_date" />
+                                <field name="from_shipment_date"/>
+                                <field name="carr_id" invisible="1"/>
+                            </group>
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+		
+            <record id="shipstation_search_view" model="ir.ui.view">
+                <field name="name">shipstation.search.view</field>
+                <field name="model">ship.station.config</field>
+                <field name="arch" type="xml">
+                    <search string="Ship Station Configuration" >
+                        <field name="user" string="API Key"/>
+                    </search>
+                </field>
+            </record>
+
+            <record id="shipstation_tree_view" model="ir.ui.view">
+                <field name="name">shipstation.tree.view</field>
+                <field name="model">ship.station.config</field>
+                <field name="arch" type="xml">
+                    <tree string="Ship Station Configuration">
+                        <field name="url" />
+                        <field name="user" string="API Key"/>
+                    </tree>
+                </field>
+            </record>
+            
+         <record id="action_shipstation" model="ir.actions.act_window">
+            <field name="name">Ship Station Configuration</field>
+            <field name="res_model">ship.station.config</field>
+             <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="shipstation_main_menu" name="ShipStation"/>
+        <menuitem id="shipstation_config_menu" name="Configuration" parent ="shipstation_main_menu" sequence="20"/>
+        <menuitem action="action_shipstation" id="ship_station_configuration" parent="shipstation_config_menu" name="Ship Station Configuration" sequence="50"/>
+        </data>
+    </openerp>

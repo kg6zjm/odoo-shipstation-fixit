@@ -1,0 +1,202 @@
+<openerp>
+    <data>
+        <!-- Delivery Carriers -->
+       <record id="view_delivery_carrier_form_for_shipstation" model="ir.ui.view">
+            <field name="name">delivery.carrier.form.for.shipstation</field>
+            <field name="model">delivery.carrier</field>
+            <field name="inherit_id" ref="delivery.view_delivery_carrier_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='integration_level']" position="after">
+                    <group name="shipstation" string="ShipStation">
+                        <field name="shipstation_code" />
+                    </group>
+                </xpath>
+           </field>
+        </record>
+        <!--Ship station-->
+       <record id="view_delivery_carrier_form_for_shipstation" model="ir.ui.view">
+            <field name="name">delivery.carrier.form.for.shipstation</field>
+            <field name="model">delivery.carrier</field>
+            <field name="inherit_id" ref="delivery.view_delivery_carrier_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='integration_level']" position="after">
+                    <group name="shipstation" string="ShipStation">
+                        <field name="shipstation_code" />
+                    </group>
+                </xpath>
+           </field>
+        </record>
+       <record id="stock_picking_track_form_view" model="ir.ui.view" >
+            <field name="name">stock.picking</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form" />
+            <field name="arch" type="xml">
+	            <xpath expr="//button[@name='action_cancel']" position="before">
+	            	 <button name="get_rates" type="object" string="Get Rates"/>
+	            	 <field name='label_done' invisible="1"/>
+                     <button name="create_label" type="object" string ="Create Label" attrs="{'invisible':[('label_done','=',True)]}" />
+                     <button name="export_shipment" type="object" string ="Export Shipment"/>
+                     <button name="mark_as_shipped" type="object" string="Mark As Shipped" />
+	            </xpath>
+            </field>
+        </record>
+
+        <record id="view_picking_form_injerit_inherit" model="ir.ui.view">
+            <field name="name">delivery.stock.picking_withcarrier.form.view</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+            	 <xpath expr="//field[@name='origin']" position="after">
+                     <field name="shipstation_order_id"/>
+                     <field name="is_shipstation"/>
+            		 <label for="carrier_tracking_ref"/>
+                      <div>
+                          <field name="carrier_tracking_ref" class="oe_inline" />
+                          <button type='object' class="fa fa-arrow-right oe_link" name="cancel_shipment" string="Cancel" attrs="{'invisible':['|','|','|',('carrier_tracking_ref','=',False),('delivery_type','in', ['fixed', 'base_on_rule']),('delivery_type','=',False),('state','not in',('done'))]}"/>
+                      </div>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[2]/field[@name='move_lines']/tree/field[@name='product_uom_qty']" position="after">
+                     <field name="initial_demamd"/>
+                </xpath>
+                
+                <xpath expr="//page[@name='extra']" position="inside">
+                        <group>
+                            <group string="Tracking Info">
+                                <field name="ship_date" />
+                                <field name="carr_id"/>
+                                <field name="service_id" domain="[('carrier_code.id','=',carr_id)]"/>
+                                <field name="track_status"/>
+                                <field name="package_code" />
+                            </group>
+                            <group string="Weight Details">
+                             	<field name="weight_ship" />                               
+                             	 <field name="weight_uom" />
+                             </group>
+                            <group string="Dimensions">
+                             	<field name="dim_unit" />
+                                <field name="dim_length" />
+                                <field name="dim_width" />
+                                <field name="dim_height" />
+                            </group>
+                            <!--Quartile Limited-->
+                            <group string="Insurance Option">
+                                <field name="insure_shipment"/>
+                             	<field name="insurance_provider"
+                                       attrs="{'invisible': [('insure_shipment', '=', False)]}"
+                                       widget="radio"/>
+                                <field name="insurance_value"
+                                       attrs="{'invisible': [('insure_shipment', '=', False)]}"/>
+                            </group>
+                            <!--Quartile Limited-->
+                        </group>
+                       <field name="get_rate_ids">
+                		<tree string="Rates Information">
+                		<field name="service_id"/>
+                		<field name="service_code"/>
+                		<field name="shipment_cost"/>
+                		<field name="other_cost"/>
+                		</tree>
+                	</field>
+                  </xpath>
+        	</field>
+        </record>
+        
+        <record id="view_picking_withcarrier_out_form_inherti_inherit" model="ir.ui.view">
+            <field name="name">delivery.stock.picking_withcarrier.form.view</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="delivery.view_picking_withcarrier_out_form"/>
+            <field name="arch" type="xml">
+             <xpath expr="//label[@for='weight']" position="attributes">
+             	<attribute name ="invisible">1</attribute>
+             </xpath>
+             <xpath expr="//field[@name='weight']" position="attributes">
+             	<attribute name ="invisible">1</attribute>
+             </xpath>
+             <xpath expr="//field[@name='weight_uom_id']" position="attributes">
+             	<attribute name ="invisible">1</attribute>
+             </xpath>
+            </field>
+       
+        </record>
+
+ 
+        <record id="inherit_action_picking_tree_all" model="ir.actions.act_window">
+            <field name="name">Stock Operations</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,kanban,form,calendar</field>
+			<field name="domain">[('is_shipstation','=',True)]</field>
+            <field name="context">{
+                    'contact_display': 'partner_address',
+            }
+            </field>
+            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click here to create a new transfer.
+              </p><p>
+                You can either do it immediatly or mark it as Todo for future processing. Use your scanner to validate the transferred quantity quicker.
+              </p>
+            </field>
+        </record>
+		<record id="view_picking_withcarrier_out_form_shipping_inhrit" model="ir.ui.view">
+            <field name="name">delivery.stock.picking_withcarrier.form.view.shipping</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="delivery.view_picking_withcarrier_out_form"/>
+            <field name="arch" type="xml">
+                <xpath expr='//group[@name="carrier_data"]' position='replace'>
+                    <group name='carrier_data' >
+                      <field name="carrier_id" attrs="{'invisible':True}"/>
+                      <field name="delivery_type" attrs="{'invisible':True}"/>
+                      <field name="carrier_price"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>	          
+          <record id="inherit_action_picking_tree_pending" model="ir.actions.act_window">
+            <field name="name">Stock Operations</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,kanban,form,calendar</field>
+            <field name="domain">[('is_shipstation','=',True),('carrier_tracking_ref','=',False)]</field>
+            <field name="context">{
+                    'contact_display': 'partner_address',
+            }
+            </field>
+            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click here to create a new transfer.
+              </p><p>
+                You can either do it immediatly or mark it as Todo for future processing. Use your scanner to validate the transferred quantity quicker.
+              </p>
+            </field>
+        </record>
+                <record id="inherit_action_picking_tree_label" model="ir.actions.act_window">
+            <field name="name">Stock Operations</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,kanban,form,calendar</field>
+            <field name="domain">[('is_shipstation','=',True),('carrier_tracking_ref','!=','')]</field>
+            <field name="context">{
+                    'contact_display': 'partner_address',
+            }
+            </field>
+            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click here to create a new transfer.
+              </p><p>
+                You can either do it immediatly or mark it as Todo for future processing. Use your scanner to validate the transferred quantity quicker.
+              </p>
+            </field>
+        </record>
+        <menuitem name="Delivery" id="delivery_shipstatin_menu" parent="shipstation_main_menu" sequence="2"/>
+        <menuitem name="All Delivery Orders" action="inherit_action_picking_tree_all" id="all_delivery_shipstatin_menu" parent="delivery_shipstatin_menu" sequence="1"/>
+        <menuitem name="Label Created" action="inherit_action_picking_tree_label" id="all_label_created_menu" parent="delivery_shipstatin_menu" sequence="2"/>
+        <menuitem name="Label Pending" action="inherit_action_picking_tree_pending" id="all_label_pending_menu" parent="delivery_shipstatin_menu" sequence="3"/>
+	 </data>
+</openerp>

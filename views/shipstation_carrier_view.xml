@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>    
+    		<record id="shipstation_carrier_view" model="ir.ui.view">
+                <field name="name">shipstatn.carrier</field>
+                <field name="model">shipstatn.carrier</field>
+                <field name="arch" type="xml">
+                    <form string="Shipstation Carrier" edit="false" create="false" version="7.0">
+                        <sheet>
+                            <group>
+                                <field name="name" required="1"/>
+                                <field name="code" required="1"/>
+                                <field name="account_no" />
+                                <field name="balance" />
+                            </group>
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+
+            <record id="shipstation_carrier_tree_view" model="ir.ui.view">
+                <field name="name">shipstation.carrier.tree.view</field>
+                <field name="model">shipstatn.carrier</field>
+                <field name="arch" type="xml">
+                    <tree string="ShipStation Carrier" edit="false" create="false" >
+                        <field name="name" />
+                        <field name="code" />
+                        <field name="account_no" />
+                        <field name="balance" />
+                    </tree>
+                </field>
+            </record>
+            
+         <record id="action_shipstation_carrier" model="ir.actions.act_window">
+            <field name="name">Ship Station Carrier</field>
+            <field name="res_model">shipstatn.carrier</field>
+             <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="shipstation_carrier_main_menu" parent="shipstation_main_menu" name="ShipStation Carrier" sequence="3"/>
+        <menuitem id="shipstation_carrier_menu" action="action_shipstation_carrier" name="ShipStation Carrier" parent ="shipstation_carrier_main_menu" sequence="20"/>
+        
+        <record id="shipstation_services_view" model="ir.ui.view">
+                <field name="name">shipstation.services</field>
+                <field name="model">shipstation.services</field>
+                <field name="arch" type="xml">
+                    <form string="Shipstation Services" edit="false" create="false" version="7.0">
+                        <sheet>
+                            <group>
+                                <field name="name" required="1"/>
+                                <field name="code" required="1"/>
+                                <field name="domestic" />
+                                <field name="international" />
+                            </group>
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+
+            <record id="shipstation_services_tree_view" model="ir.ui.view">
+                <field name="name">shipstation.services.tree.view</field>
+                <field name="model">shipstation.services</field>
+                <field name="arch" type="xml">
+                    <tree string="ShipStation Services" edit="false" create="false">
+                        <field name="name" />
+                        <field name="code" />
+                        <field name="domestic" />
+                        <field name="international" />
+                    </tree>
+                </field>
+            </record>
+            
+         <record id="action_shipstation_services" model="ir.actions.act_window">
+            <field name="name">Ship Station Services</field>
+            <field name="res_model">shipstation.services</field>
+             <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="shipstation_services_main_menu" parent="shipstation_main_menu" name="ShipStation Services" sequence="4"/>
+        <menuitem id="shipstation_services_menu" action="action_shipstation_services" name="ShipStation Services" parent ="shipstation_services_main_menu" sequence="20"/>
+        
+        
+        </data>
+    </openerp>
